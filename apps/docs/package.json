@@ -1,5 +1,6 @@
 {
 	"name": "@matfire/concorde-docs",
+	"private": true,
 	"scripts": {
 		"dev": "vitepress dev",
 		"build": "vitepress build",
