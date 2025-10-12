@@ -1,0 +1,69 @@
+{
+	"name": "@matfire/concorde",
+	"version": "0.0.1",
+	"description": "A TypeScript wrapper for Pusher that ensures end-to-end type safety with schema validation",
+	"type": "module",
+	"scripts": {
+		"test": "vitest run",
+		"test:watch": "vitest",
+		"test:coverage": "vitest run --coverage",
+		"build": "tsdown",
+		"dev": "tsdown --watch ./src",
+		"typecheck": "tsc --noEmit",
+		"lint": "biome check",
+		"lint:fix": "pnpm lint --write",
+		"prepublishOnly": "automd"
+	},
+	"files": [
+		"dist"
+	],
+	"keywords": [
+		"pusher",
+		"websocket",
+		"typescript",
+		"type-safety",
+		"schema-validation",
+		"realtime"
+	],
+	"author": "",
+	"license": "MIT",
+	"packageManager": "pnpm@10.17.1",
+	"devDependencies": {
+		"@biomejs/biome": "^2.2.5",
+		"@vitest/coverage-v8": "3.2.4",
+		"arktype": "^2.1.22",
+		"automd": "^0.4.2",
+		"lint-staged": "^16.2.4",
+		"tsdown": "^0.15.6",
+		"tslog": "^4.10.2",
+		"typescript": "^5.9.3",
+		"vitest": "^3.2.4"
+	},
+	"peerDependencies": {
+		"pusher": "^5.2.0",
+		"pusher-js": "^8.4.0"
+	},
+	"dependencies": {
+		"@standard-schema/spec": "^1.0.0"
+	},
+	"repository": "matfire/safe-pusher",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"default": "./dist/index.js"
+		},
+		"./client": {
+			"types": "./dist/client.d.ts",
+			"default": "./dist/client.js"
+		},
+		"./server": {
+			"types": "./dist/server.d.ts",
+			"default": "./dist/server.js"
+		},
+		"./registry": {
+			"types": "./dist/registry.d.ts",
+			"default": "./dist/registry.js"
+		},
+		"./package.json": "./package.json"
+	}
+}

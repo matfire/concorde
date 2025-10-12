@@ -1,0 +1,5 @@
+services:
+  sockudo:
+    image: sockudo/sockudo:2.7.5
+    ports:
+      - "6001:6001"

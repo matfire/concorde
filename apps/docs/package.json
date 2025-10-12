@@ -1,0 +1,14 @@
+{
+	"name": "@matfire/concorde-docs",
+	"scripts": {
+		"dev": "vitepress dev",
+		"build": "vitepress build",
+		"preview": "vitepress preview",
+		"lint": "biome check",
+		"lint:fix": "pnpm lint --write"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^2.2.5",
+		"vitepress": "2.0.0-alpha.12"
+	}
+}

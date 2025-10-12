@@ -1,0 +1,29 @@
+{
+  "name": "@matfire/concorde-root",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "turbo test",
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "lint:fix": "turbo lint:fix",
+    "lint:staged": "lint-staged",
+    "prepare": "husky"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.17.1",
+  "devDependencies": {
+    "turbo": "^2.5.8"
+  },
+  "dependencies": {
+    "automd": "^0.4.2",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.4"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": "pnpm lint:fix"
+  }
+}
