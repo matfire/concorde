@@ -2,13 +2,13 @@
 
 > a wrapper for pusher to ensure E2E typesafety
 
-<!-- automd:badges license  bundlephobia packagephobia -->
+<!-- automd:badges license  bundlephobia packagephobia name="@matfire/concorde" -->
 
 [![npm version](https://img.shields.io/npm/v/@matfire/concorde)](https://npmjs.com/package/@matfire/concorde)
 [![npm downloads](https://img.shields.io/npm/dm/@matfire/concorde)](https://npm.chart.dev/@matfire/concorde)
 [![bundle size](https://img.shields.io/bundlephobia/minzip/@matfire/concorde)](https://bundlephobia.com/package/@matfire/concorde)
 [![install size](https://badgen.net/packagephobia/install/@matfire/concorde)](https://packagephobia.com/result?p=@matfire/concorde)
-[![license](https://img.shields.io/github/license/matfire/safe-pusher)](https://github.com/matfire/safe-pusher/blob/main/LICENSE)
+[![license](https://img.shields.io/github/license/matfire/concorde)](https://github.com/matfire/concorde/blob/main/LICENSE)
 
 <!-- /automd -->
 
