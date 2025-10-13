@@ -515,6 +515,5 @@ class MetricsCollector {
 
 ## Next Steps
 
-- Explore [Real-world Examples](/examples/chat)
 - Check out the complete [API Reference](/api/client)
 - Learn about [Dynamic Channels](/guide/dynamic-channels) for advanced use cases

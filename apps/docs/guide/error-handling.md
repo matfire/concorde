@@ -2,6 +2,10 @@
 
 Concorde provides comprehensive error handling for both development and production scenarios. Understanding how to handle different types of errors ensures robust real-time applications.
 
+::: warning
+  :warning: this section is still a work in progress
+:::
+
 ## Types of Errors
 
 ### 1. Schema Validation Errors
@@ -124,30 +128,6 @@ async function handleValidationError(error: Error) {
 }
 ```
 
-### Graceful Degradation
-
-```typescript
-async function broadcastMessage(message: any) {
-  const channels = ['channel1', 'channel2', 'channel3']
-  const results = await Promise.allSettled(
-    channels.map(channel => 
-      server.trigger(channel, 'message', message)
-    )
-  )
-  
-  const successful = results.filter(r => r.status === 'fulfilled').length
-  const failed = results.filter(r => r.status === 'rejected').length
-  
-  console.log(`Broadcast: ${successful} successful, ${failed} failed`)
-  
-  // Log failed channels for retry
-  results.forEach((result, index) => {
-    if (result.status === 'rejected') {
-      console.error(`Channel ${channels[index]} failed:`, result.reason)
-    }
-  })
-}
-```
 
 ## Client-Side Error Handling
 
@@ -202,190 +182,6 @@ pusher.connection.bind('connected', () => {
 const client = createClient(registry, pusher)
 ```
 
-### Subscription Error Handling
-
-```typescript
-function safeSubscribe(channelName: string) {
-  try {
-    return client.subscribe(channelName)
-  } catch (error) {
-    console.error(`Failed to subscribe to ${channelName}:`, error.message)
-    
-    // Fallback to a default channel or show error UI
-    showSubscriptionError(channelName)
-    return null
-  }
-}
-
-function safeBind(channel: any, event: string, handler: Function) {
-  if (!channel) return
-  
-  try {
-    channel.bind(event, handler)
-  } catch (error) {
-    console.error(`Failed to bind to ${event}:`, error.message)
-  }
-}
-```
-
-## Production Error Handling
-
-### Monitoring and Logging
-
-```typescript
-interface ErrorContext {
-  userId?: string
-  channel?: string
-  event?: string
-  data?: unknown
-  timestamp: number
-}
-
-function logError(error: Error, context: ErrorContext) {
-  const errorData = {
-    message: error.message,
-    stack: error.stack,
-    context,
-    timestamp: Date.now()
-  }
-  
-  // Send to monitoring service
-  console.error('Concorde Error:', errorData)
-  
-  // Send to external monitoring (e.g., Sentry, DataDog)
-  if (typeof window !== 'undefined' && window.Sentry) {
-    window.Sentry.captureException(error, {
-      tags: {
-        component: 'concorde',
-        channel: context.channel,
-        event: context.event
-      },
-      extra: context
-    })
-  }
-}
-```
-
-### Retry Logic
-
-```typescript
-async function triggerWithRetry(
-  channel: string, 
-  event: string, 
-  data: unknown,
-  maxRetries = 3
-) {
-  let lastError: Error
-  
-  for (let attempt = 1; attempt <= maxRetries; attempt++) {
-    try {
-      await server.trigger(channel, event, data)
-      return true
-    } catch (error) {
-      lastError = error as Error
-      
-      // Don't retry validation errors
-      if (error.message.includes('Trying to send invalid data')) {
-        throw error
-      }
-      
-      console.warn(`Attempt ${attempt} failed:`, error.message)
-      
-      // Wait before retry (exponential backoff)
-      if (attempt < maxRetries) {
-        await new Promise(resolve => 
-          setTimeout(resolve, Math.pow(2, attempt) * 1000)
-        )
-      }
-    }
-  }
-  
-  throw new Error(`Failed after ${maxRetries} attempts: ${lastError.message}`)
-}
-```
-
-### Circuit Breaker Pattern
-
-```typescript
-class ConcordeCircuitBreaker {
-  private failures = 0
-  private lastFailureTime = 0
-  private readonly threshold = 5
-  private readonly timeout = 60000 // 1 minute
-
-  async execute<T>(operation: () => Promise<T>): Promise<T> {
-    if (this.isOpen()) {
-      throw new Error('Circuit breaker is open')
-    }
-
-    try {
-      const result = await operation()
-      this.onSuccess()
-      return result
-    } catch (error) {
-      this.onFailure()
-      throw error
-    }
-  }
-
-  private isOpen(): boolean {
-    return this.failures >= this.threshold && 
-           Date.now() - this.lastFailureTime < this.timeout
-  }
-
-  private onSuccess(): void {
-    this.failures = 0
-  }
-
-  private onFailure(): void {
-    this.failures++
-    this.lastFailureTime = Date.now()
-  }
-}
-
-const circuitBreaker = new ConcordeCircuitBreaker()
-
-// Usage
-try {
-  await circuitBreaker.execute(() => 
-    server.trigger('notifications', 'alert', alertData)
-  )
-} catch (error) {
-  console.error('Circuit breaker prevented execution or operation failed')
-}
-```
-
-## Testing Error Scenarios
-
-### Unit Tests for Error Handling
-
-```typescript
-import { describe, it, expect } from 'vitest'
-import { createServer } from '@matfire/concorde/server'
-
-describe('Error Handling', () => {
-  it('should throw validation error for invalid data', async () => {
-    const server = createServer(registry, mockPusher)
-    
-    await expect(
-      server.trigger('user-events', 'user-joined', {
-        userId: 123, // Invalid type
-        username: 'test',
-        timestamp: Date.now()
-      })
-    ).rejects.toThrow('Trying to send invalid data')
-  })
-
-  it('should handle unknown channels gracefully', () => {
-    const client = createClient(registry, mockPusher)
-    
-    expect(() => {
-      const channel = client.subscribe('unknown-channel' as any)
-      channel.bind('event', () => {})
-    }).toThrow('Could not find channel unknown-channel')
-  })
-})
-```
 
 ## Best Practices
 
@@ -399,5 +195,4 @@ describe('Error Handling', () => {
 ## Next Steps
 
 - Learn about [Best Practices](/guide/best-practices)
-- Explore [Real-time Chat Example](/examples/chat)
 - Check out the [Server API](/api/server) reference

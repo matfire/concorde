@@ -50,7 +50,7 @@ The main client interface for subscribing to channels and managing connections.
 Subscribes to a channel and returns a typed channel instance.
 
 ```typescript
-subscribe<Ch extends ChannelSpecifier<Registry>>(
+function subscribe<Ch extends ChannelSpecifier<Registry>>(
   channelSpec: Ch
 ): TypedChannel<Registry, Ch>
 ```
@@ -97,7 +97,7 @@ Represents a subscribed channel with type-safe event binding and triggering.
 Binds an event handler to a specific event on the channel.
 
 ```typescript
-bind<Ev extends EventNames<Registry, Ch>>(
+function bind<Ev extends EventNames<Registry, Ch>>(
   event: Ev,
   handler: (payload: OutType<Registry, Ch, Ev>) => void
 ): void
@@ -128,7 +128,7 @@ channel.bind('user-left', (data) => {
 Removes event handler for a specific event.
 
 ```typescript
-unbind<Ev extends EventNames<Registry, Ch>>(event: Ev): void
+function unbind<Ev extends EventNames<Registry, Ch>>(event: Ev): void
 ```
 
 **Parameters:**
@@ -146,7 +146,7 @@ channel.unbind('user-joined')
 Triggers an event on the channel (for client-side triggering if enabled).
 
 ```typescript
-trigger<Ev extends EventNames<Registry, Ch>>(
+function trigger<Ev extends EventNames<Registry, Ch>>(
   event: Ev,
   data: InType<Registry, Ch, Ev>
 ): Promise<void>
@@ -247,78 +247,6 @@ channel.bind('user-joined', (data) => {
 // "Received invalid payload [validation errors]"
 ```
 
-## React Integration
-
-### Custom Hook Example
-
-```typescript
-import { useEffect, useState } from 'react'
-import { client } from './pusher-client'
-
-function useRealtimeData<T>(
-  channelName: string,
-  eventName: string,
-  initialData: T
-): T {
-  const [data, setData] = useState<T>(initialData)
-
-  useEffect(() => {
-    const channel = client.subscribe(channelName)
-    
-    channel.bind(eventName, (newData: T) => {
-      setData(newData)
-    })
-
-    return () => {
-      channel.unbind(eventName)
-    }
-  }, [channelName, eventName])
-
-  return data
-}
-
-// Usage
-function UserProfile({ userId }: { userId: string }) {
-  const userStatus = useRealtimeData(
-    { template: 'user-{userId}', params: { userId } },
-    'status-changed',
-    { status: 'offline', timestamp: 0 }
-  )
-
-  return (
-    <div>
-      Status: {userStatus.status}
-      Last seen: {new Date(userStatus.timestamp).toLocaleString()}
-    </div>
-  )
-}
-```
-
-### Connection Status Hook
-
-```typescript
-import { useEffect, useState } from 'react'
-import Pusher from 'pusher-js'
-
-function useConnectionStatus(pusher: Pusher) {
-  const [status, setStatus] = useState<string>('connecting')
-
-  useEffect(() => {
-    const handleStateChange = (states: any) => {
-      setStatus(states.current)
-    }
-
-    pusher.connection.bind('state_change', handleStateChange)
-    setStatus(pusher.connection.state)
-
-    return () => {
-      pusher.connection.unbind('state_change', handleStateChange)
-    }
-  }, [pusher])
-
-  return status
-}
-```
 
 ## TypeScript Types
 

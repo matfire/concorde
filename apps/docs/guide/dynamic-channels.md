@@ -305,4 +305,3 @@ const projectChannel = client.subscribe({
 
 - Learn about [Error Handling](/guide/error-handling)
 - Check out [Best Practices](/guide/best-practices)
-- See [Real-time Chat Example](/examples/chat) using dynamic channels

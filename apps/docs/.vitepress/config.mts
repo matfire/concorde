@@ -5,7 +5,17 @@ export default defineConfig({
   title: "Concorde",
   description:
     "A TypeScript wrapper for Pusher that ensures end-to-end type safety with schema validation",
-
+  head: [
+    [
+      'script',
+      {
+        src: "https://plausible.anton.nirah.tech/js/script.hash.js",
+        "data-domain": "concorde.sh",
+        defer: ""
+      }
+    ]
+  ],
+  lastUpdated: true,
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [
@@ -33,14 +43,6 @@ export default defineConfig({
           { text: "Server API", link: "/api/server" },
           { text: "Registry Builder", link: "/api/registry" },
           { text: "Types", link: "/api/types" },
-        ],
-      },
-      {
-        text: "Examples",
-        items: [
-          { text: "Real-time Chat", link: "/examples/chat" },
-          { text: "Live Notifications", link: "/examples/notifications" },
-          { text: "User Presence", link: "/examples/presence" },
         ],
       },
     ],

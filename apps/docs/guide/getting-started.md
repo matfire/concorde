@@ -124,4 +124,3 @@ channel.bind('user-joined', (data) => {
 - Learn about [Basic Usage](/guide/basic-usage) patterns
 - Understand [Schema Validation](/guide/schema-validation) in detail
 - Explore [Dynamic Channels](/guide/dynamic-channels) for scalable applications
-- Check out [Examples](/examples/chat) for real-world usage
