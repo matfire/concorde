@@ -9,8 +9,8 @@ export default defineConfig({
     [
       'script',
       {
-        src: "https://plausible.anton.nirah.tech/js/script.hash.js",
-        "data-domain": "concorde.sh",
+        src: "https://stats.matteogassend.com/script.js",
+        "data-website-id": "0f8b0398-1d1e-433e-959f-3dcca2e64081",
         defer: ""
       }
     ]
