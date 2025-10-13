@@ -1,5 +1,11 @@
 # @matfire/concorde
 
+## 0.0.4
+
+### Patch Changes
+
+- Fixing small mistakes in package.json and such
+
 ## 0.0.3
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 {
 	"name": "@matfire/concorde",
-	"version": "0.0.3",
+	"version": "0.0.4",
 	"description": "A TypeScript wrapper for Pusher that ensures end-to-end type safety with schema validation",
 	"type": "module",
 	"main": "./dist/index.js",
