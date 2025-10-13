@@ -14,6 +14,8 @@
 
 This repository is a monorepo; if you're looking for the source code of the "@matfire/concorde" package, you can find it in [/packages/concorde](/packages/concorde).
 
+You can all the documentation to use this package at [concorde.sh](https://www.concorde.sh)
+
 ## Install
 
 <!-- automd:pm-install name="@matfire/concorde" -->
